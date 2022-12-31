@@ -39,19 +39,11 @@ public class TransactionsServiceImpl implements TransactionsService{
     }
 
 
-    @Override
-    public List<Transactions> getTransactionsByUserId(Long userId) {
-        List<Transactions> transactions = new ArrayList<>();
-        transactionsRepository.findByUserId(userId).forEach(transactions::add);
-        return transactions;
-    }
 
     @Override
     public Transactions createTransactions(String name,Long cost, String expenseName, String categoryName, String subCategoryName, String accountName,
-                                           String subAccountName, String userName){
+                                           String subAccountName, Long userId){
 
-        UserProfile userProfile = userProfileRepository.findByName(userName);
-        Long userId = userProfile.getId();
 
         AccountType accountType = accountTypeRepository.findByName(accountName);
         Long accountTypeId = accountType.getId();
@@ -71,6 +63,39 @@ public class TransactionsServiceImpl implements TransactionsService{
         Boolean active = true;
 
         Transactions transactions = transactionsRepository.save(new Transactions(name,cost,expenseTypeId,userId,accountTypeId,categoryTypeId,subAccountTypeId,subCategoryTypeId,active));
+        return transactions;
+    };
+
+    public List<Transactions> getTransactions(Long userId, List<String> expenseTypes, List<String> accountTypes, List<String> categoryTypes,
+                                              List<String> subAccountTypes, List<String> subCategoryTypes){
+        List<Long> expenseTypeIds = new ArrayList<>();
+        List<Long> accountTypeIds = new ArrayList<>();
+        List<Long> categoryTypeIds = new ArrayList<>();
+        List<Long> subAccountTypeIds = new ArrayList<>();
+        List<Long> subCategoryTypeIds = new ArrayList<>();
+
+        for(String expenseName:expenseTypes){
+            ExpenseType expenseType = expenseTypeRepository.findByName(expenseName);
+            expenseTypeIds.add(expenseType.getId());
+        }
+        for(String accountName:accountTypes){
+            AccountType accountType = accountTypeRepository.findByName(accountName);
+            accountTypeIds.add(accountType.getId());
+        }
+        for(String categoryName:categoryTypes){
+            CategoryType categoryType = categoryTypeRepository.findByName(categoryName);
+            categoryTypeIds.add(categoryType.getId());
+        }
+        for(String subAccountName:subAccountTypes){
+            SubAccountType subAccountType = subAccountTypeRepository.findByName(subAccountName);
+            subAccountTypeIds.add(subAccountType.getId());
+        }
+        for(String subCategoryName:subCategoryTypes){
+            SubCategoryType subCategoryType = subCategoryTypeRepository.findByName(subCategoryName);
+            subCategoryTypeIds.add(subCategoryType.getId());
+        }
+        List<Transactions> transactions = transactionsRepository.findByAll(userId,expenseTypeIds,accountTypeIds,categoryTypeIds,subAccountTypeIds,
+                subCategoryTypeIds);
         return transactions;
     };
 }

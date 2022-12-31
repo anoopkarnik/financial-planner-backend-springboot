@@ -4,6 +4,7 @@ import com.bezkoder.spring.jpa.postgresql.model.SubAccountType;
 import com.bezkoder.spring.jpa.postgresql.model.Transactions;
 import com.bezkoder.spring.jpa.postgresql.repository.TransactionsRepository;
 import com.bezkoder.spring.jpa.postgresql.request.SubAccountTypeRequest;
+import com.bezkoder.spring.jpa.postgresql.request.TransactionsListRequest;
 import com.bezkoder.spring.jpa.postgresql.request.TransactionsRequest;
 import com.bezkoder.spring.jpa.postgresql.service.AccountService;
 import com.bezkoder.spring.jpa.postgresql.service.TransactionsService;
@@ -31,11 +32,29 @@ public class TransactionsController {
 		try {
 			Transactions transactions = transactionsService.createTransactions(transactionsRequest.getName(),transactionsRequest.getCost(),
 					transactionsRequest.getExpenseName(),transactionsRequest.getCategoryName(),transactionsRequest.getSubCategoryName(),
-					transactionsRequest.getAccountName(),transactionsRequest.getSubAccountName(),transactionsRequest.getUserName());
+					transactionsRequest.getAccountName(),transactionsRequest.getSubAccountName(),transactionsRequest.getUserId());
 			return new ResponseEntity<>(transactions, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@GetMapping
+	public ResponseEntity<List<Transactions>> getTransactions(@RequestBody TransactionsListRequest transactionsListRequest) {
+		try {
+			List<Transactions> transactionsList =transactionsService.getTransactions(transactionsListRequest.getUserId(),transactionsListRequest.getExpenseTypes(),
+					transactionsListRequest.getAccountTypes(),transactionsListRequest.getCategoryTypes(),transactionsListRequest.getSubAccountTypes(),
+					transactionsListRequest.getSubCategoryTypes());
+			if (transactionsList.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(transactionsList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+
 
 }

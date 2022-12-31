@@ -28,7 +28,7 @@ public class AccountController {
 {
 		try {
 			SubAccountType _subAccountType = accountService.createSubAccount(subAccountTypeRequest.getAccountName(),subAccountTypeRequest.getBalance(),
-					subAccountTypeRequest.getFreeLiquidity(),subAccountTypeRequest.getLiquidity(),subAccountTypeRequest.getName(),subAccountTypeRequest.getUserName());
+					subAccountTypeRequest.getFreeLiquidity(),subAccountTypeRequest.getLiquidity(),subAccountTypeRequest.getName(),subAccountTypeRequest.getUserId());
 			return new ResponseEntity<>(_subAccountType, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -36,9 +36,9 @@ public class AccountController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<SubAccountType>> getSubAccountByUserAndAccount(@RequestParam("user") String userName, @RequestParam("account") String accountName) {
+	public ResponseEntity<List<SubAccountType>> getSubAccountByUserAndAccount(@RequestParam("user") Long userId, @RequestParam("account") String accountName) {
 		try {
-			List<SubAccountType> subAccountTypeList = accountService.getSubAccountByUserAndAccount(userName,accountName);
+			List<SubAccountType> subAccountTypeList = accountService.getSubAccountByUserAndAccount(userId,accountName);
 			if (subAccountTypeList.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}

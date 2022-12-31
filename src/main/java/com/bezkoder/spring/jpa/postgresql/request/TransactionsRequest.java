@@ -9,7 +9,7 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransactionsRequest {
     private String accountName;
-    private String userName;
+    private Long userId;
     private Long cost;
     private String name;
     private String categoryName;

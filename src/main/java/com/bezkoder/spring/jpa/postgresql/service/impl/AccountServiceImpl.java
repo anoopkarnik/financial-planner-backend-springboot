@@ -34,10 +34,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public SubAccountType createSubAccount(String accountName, Long balance, Boolean freeLiquidity, Boolean liquidity, String name, String userName){
+    public SubAccountType createSubAccount(String accountName, Long balance, Boolean freeLiquidity, Boolean liquidity, String name, Long userId){
 
-        UserProfile userProfile = userProfileRepository.findByName(userName);
-        Long userId = userProfile.getId();
 
         AccountType accountType = accountTypeRepository.findByName(accountName);
         Long accountTypeId = accountType.getId();
@@ -47,10 +45,7 @@ public class AccountServiceImpl implements AccountService {
     };
 
     @Override
-    public List<SubAccountType> getSubAccountByUserAndAccount(String userName, String accountName){
-        UserProfile userProfile = userProfileRepository.findByName(userName);
-        Long userId = userProfile.getId();
-
+    public List<SubAccountType> getSubAccountByUserAndAccount(Long userId, String accountName){
         AccountType accountType = accountTypeRepository.findByName(accountName);
         Long accountTypeId = accountType.getId();
 

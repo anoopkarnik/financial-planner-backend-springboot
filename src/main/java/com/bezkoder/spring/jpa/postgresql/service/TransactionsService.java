@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface TransactionsService {
 
-    public List<Transactions> getTransactionsByUserId(Long userId);
 
     public Transactions createTransactions(String name,Long cost, String expenseName, String categoryName, String SubCategoryName, String AccountName,
-                                           String SubAccountName, String userName);
+                                           String SubAccountName, Long userId);
+
+    public List<Transactions> getTransactions(Long userId, List<String> expenseTypes, List<String> accountTypes, List<String> categoryTypes,
+                                              List<String> subAccountTypes, List<String> subCategoryTypes);
 
 }
