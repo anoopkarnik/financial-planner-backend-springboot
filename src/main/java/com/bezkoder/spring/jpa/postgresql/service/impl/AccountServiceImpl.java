@@ -53,6 +53,13 @@ public class AccountServiceImpl implements AccountService {
         return subAccountTypeList;
 
     };
+
+    @Override
+    public List<SubAccountType> getSubAccountByUser(Long userId){
+        List<SubAccountType> subAccountTypeList = subAccountTypeRepository.findByUserId(userId);
+        return subAccountTypeList;
+
+    };
 }
 
 

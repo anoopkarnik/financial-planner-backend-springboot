@@ -1,13 +1,7 @@
 package com.bezkoder.spring.jpa.postgresql.service.impl;
 
-import com.bezkoder.spring.jpa.postgresql.model.AccountType;
-import com.bezkoder.spring.jpa.postgresql.model.CategoryType;
-import com.bezkoder.spring.jpa.postgresql.model.ExpenseType;
-import com.bezkoder.spring.jpa.postgresql.model.SubCategoryType;
-import com.bezkoder.spring.jpa.postgresql.repository.AccountTypeRepository;
-import com.bezkoder.spring.jpa.postgresql.repository.CategoryTypeRepository;
-import com.bezkoder.spring.jpa.postgresql.repository.ExpenseTypeRepository;
-import com.bezkoder.spring.jpa.postgresql.repository.SubCategoryTypeRepository;
+import com.bezkoder.spring.jpa.postgresql.model.*;
+import com.bezkoder.spring.jpa.postgresql.repository.*;
 import com.bezkoder.spring.jpa.postgresql.service.CommonsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,7 +84,6 @@ public class CommonsServiceImpl implements CommonsService {
         SubCategoryType subCategoryType = subCategoryTypeRepository.save(new SubCategoryType(name));
         return subCategoryType;
     }
-
 
 }
 

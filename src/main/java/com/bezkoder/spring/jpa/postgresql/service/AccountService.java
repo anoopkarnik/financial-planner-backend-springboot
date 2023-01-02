@@ -10,5 +10,6 @@ public interface AccountService {
     public SubAccountType createSubAccount(String accountName, Long balance, Boolean freeLiquidity, Boolean liquidity, String name, Long userId);
 
     public List<SubAccountType> getSubAccountByUserAndAccount(Long userId, String accountName);
+    public List<SubAccountType> getSubAccountByUser(Long userId);
 
 }

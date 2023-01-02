@@ -3,11 +3,13 @@ package com.bezkoder.spring.jpa.postgresql.service.impl;
 import com.bezkoder.spring.jpa.postgresql.model.*;
 import com.bezkoder.spring.jpa.postgresql.repository.*;
 import com.bezkoder.spring.jpa.postgresql.service.TransactionsService;
-import com.bezkoder.spring.jpa.postgresql.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -67,11 +69,10 @@ public class TransactionsServiceImpl implements TransactionsService{
     };
 
     public List<Transactions> getTransactions(Long userId, List<String> expenseTypes, List<String> accountTypes, List<String> categoryTypes,
-                                              List<String> subAccountTypes, List<String> subCategoryTypes){
+                                              List<String> subCategoryTypes, String dateFrom, String dateTo){
         List<Long> expenseTypeIds = new ArrayList<>();
         List<Long> accountTypeIds = new ArrayList<>();
         List<Long> categoryTypeIds = new ArrayList<>();
-        List<Long> subAccountTypeIds = new ArrayList<>();
         List<Long> subCategoryTypeIds = new ArrayList<>();
 
         for(String expenseName:expenseTypes){
@@ -86,16 +87,26 @@ public class TransactionsServiceImpl implements TransactionsService{
             CategoryType categoryType = categoryTypeRepository.findByName(categoryName);
             categoryTypeIds.add(categoryType.getId());
         }
-        for(String subAccountName:subAccountTypes){
-            SubAccountType subAccountType = subAccountTypeRepository.findByName(subAccountName);
-            subAccountTypeIds.add(subAccountType.getId());
-        }
         for(String subCategoryName:subCategoryTypes){
             SubCategoryType subCategoryType = subCategoryTypeRepository.findByName(subCategoryName);
             subCategoryTypeIds.add(subCategoryType.getId());
         }
-        List<Transactions> transactions = transactionsRepository.findByAll(userId,expenseTypeIds,accountTypeIds,categoryTypeIds,subAccountTypeIds,
-                subCategoryTypeIds);
+
+        Date startDate = null;
+        try {
+            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateFrom);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Date endDate = null;
+        try {
+            endDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateTo);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        List<Transactions> transactions = transactionsRepository.findByAll(userId,expenseTypeIds,accountTypeIds,categoryTypeIds,
+                subCategoryTypeIds,startDate,endDate);
         return transactions;
     };
 }

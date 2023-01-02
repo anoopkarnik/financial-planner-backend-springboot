@@ -10,6 +10,8 @@ import java.util.List;
 public interface SubAccountTypeRepository extends JpaRepository<SubAccountType, Long> {
   List<SubAccountType> findByUserIdAndAccountTypeId(Long userId,Long subAccountTypeId);
 
+  List<SubAccountType> findByUserId(Long userId);
+
   SubAccountType findByName(String name);
 
 }

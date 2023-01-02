@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:3001")
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
@@ -35,10 +35,24 @@ public class AccountController {
 		}
 	}
 
-	@GetMapping
+	@GetMapping("/1")
 	public ResponseEntity<List<SubAccountType>> getSubAccountByUserAndAccount(@RequestParam("user") Long userId, @RequestParam("account") String accountName) {
 		try {
 			List<SubAccountType> subAccountTypeList = accountService.getSubAccountByUserAndAccount(userId,accountName);
+			if (subAccountTypeList.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(subAccountTypeList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/2")
+	public ResponseEntity<List<SubAccountType>> getSubAccountByUser(@RequestParam("user") Long userId) {
+		try {
+			List<SubAccountType> subAccountTypeList = accountService.getSubAccountByUser(userId);
 			if (subAccountTypeList.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}

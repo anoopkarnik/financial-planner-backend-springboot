@@ -17,7 +17,7 @@ import java.util.Optional;
 
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:3001")
 @RestController
 @RequestMapping("/commons")
 public class CommonsController {
@@ -119,6 +119,5 @@ public class CommonsController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 
 }

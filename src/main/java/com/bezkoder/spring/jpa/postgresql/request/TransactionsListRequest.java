@@ -12,8 +12,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransactionsListRequest {
     private Long userId;
-    private Date dateFrom;
-    private Date dateTo;
+    private String dateFrom;
+    private String dateTo;
     private List<String> expenseTypes;
     private List<String> accountTypes;
     private List<String> categoryTypes;

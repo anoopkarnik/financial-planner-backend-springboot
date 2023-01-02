@@ -1,8 +1,6 @@
 package com.bezkoder.spring.jpa.postgresql.service;
 
 import com.bezkoder.spring.jpa.postgresql.model.Transactions;
-import com.bezkoder.spring.jpa.postgresql.model.UserProfile;
-import com.bezkoder.spring.jpa.postgresql.repository.TransactionsRepository;
 
 import java.util.List;
 
@@ -13,6 +11,6 @@ public interface TransactionsService {
                                            String SubAccountName, Long userId);
 
     public List<Transactions> getTransactions(Long userId, List<String> expenseTypes, List<String> accountTypes, List<String> categoryTypes,
-                                              List<String> subAccountTypes, List<String> subCategoryTypes);
+                                              List<String> subCategoryTypes, String dateFrom, String dateTo);
 
 }

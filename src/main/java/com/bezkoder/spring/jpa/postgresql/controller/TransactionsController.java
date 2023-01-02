@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:3001")
 @RestController
 @RequestMapping("/transactions")
 public class TransactionsController {
@@ -39,12 +39,12 @@ public class TransactionsController {
 		}
 	}
 
-	@GetMapping
+	@PutMapping
 	public ResponseEntity<List<Transactions>> getTransactions(@RequestBody TransactionsListRequest transactionsListRequest) {
 		try {
 			List<Transactions> transactionsList =transactionsService.getTransactions(transactionsListRequest.getUserId(),transactionsListRequest.getExpenseTypes(),
-					transactionsListRequest.getAccountTypes(),transactionsListRequest.getCategoryTypes(),transactionsListRequest.getSubAccountTypes(),
-					transactionsListRequest.getSubCategoryTypes());
+					transactionsListRequest.getAccountTypes(),transactionsListRequest.getCategoryTypes(),transactionsListRequest.getSubCategoryTypes(),
+					transactionsListRequest.getDateFrom(),transactionsListRequest.getDateTo());
 			if (transactionsList.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
