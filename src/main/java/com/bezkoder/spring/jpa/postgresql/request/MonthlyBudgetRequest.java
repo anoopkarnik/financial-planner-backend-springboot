@@ -7,14 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TransactionsRequest {
-    private String accountName;
+public class MonthlyBudgetRequest {
     private Long userId;
     private Long cost;
-    private String name;
     private String categoryName;
     private String subCategoryName;
-    private String subAccountName;
     private String expenseName;
 
 

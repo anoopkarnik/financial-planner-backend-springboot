@@ -1,7 +1,9 @@
 package com.bezkoder.spring.jpa.postgresql.controller;
 
+import com.bezkoder.spring.jpa.postgresql.model.Income;
 import com.bezkoder.spring.jpa.postgresql.model.SubAccountType;
 import com.bezkoder.spring.jpa.postgresql.model.Transactions;
+import com.bezkoder.spring.jpa.postgresql.repository.IncomeRepository;
 import com.bezkoder.spring.jpa.postgresql.repository.TransactionsRepository;
 import com.bezkoder.spring.jpa.postgresql.request.SubAccountTypeRequest;
 import com.bezkoder.spring.jpa.postgresql.request.TransactionsListRequest;
@@ -25,6 +27,9 @@ public class TransactionsController {
 
 	@Autowired
 	TransactionsService transactionsService;
+
+	@Autowired
+	IncomeRepository incomeRepository;
 
 	@PostMapping
 	public ResponseEntity<Transactions> createTransactions(@RequestBody TransactionsRequest transactionsRequest)
@@ -55,6 +60,20 @@ public class TransactionsController {
 		}
 	}
 
+	@DeleteMapping
+	public void deleteTransactions(@RequestParam("id") Long id){
+		transactionsService.deleteTransactions(id);
+	}
 
+	@PostMapping("/income")
+	public ResponseEntity<Income> createIncome(@RequestBody Income income)
+	{
+		try {
+			Income _income = incomeRepository.save(new Income(income.getName(),income.getIncome(),true,income.getUserId()));
+			return new ResponseEntity<>(_income, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 }

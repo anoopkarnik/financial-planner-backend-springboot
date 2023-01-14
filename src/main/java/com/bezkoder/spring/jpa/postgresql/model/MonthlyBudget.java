@@ -15,8 +15,6 @@ public class MonthlyBudget {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "name")
-    private String name;
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", updatable = false)
@@ -49,15 +47,6 @@ public class MonthlyBudget {
 
     public long getId() {
         return id;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Date getCreatedAt() {
@@ -117,8 +106,7 @@ public class MonthlyBudget {
         this.userId = userId;
     }
 
-    public MonthlyBudget(String name, Long cost, Long expenseTypeId, Boolean active, Long categoryTypeId, Long subCategoryTypeId, Long userId) {
-        this.name = name;
+    public MonthlyBudget(Long cost, Long expenseTypeId, Boolean active, Long categoryTypeId, Long subCategoryTypeId, Long userId) {
         this.cost = cost;
         this.expenseTypeId = expenseTypeId;
         this.active = active;

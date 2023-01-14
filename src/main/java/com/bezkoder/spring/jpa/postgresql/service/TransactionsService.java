@@ -13,4 +13,6 @@ public interface TransactionsService {
     public List<Transactions> getTransactions(Long userId, List<String> expenseTypes, List<String> accountTypes, List<String> categoryTypes,
                                               List<String> subCategoryTypes, String dateFrom, String dateTo);
 
+    public void deleteTransactions(Long id);
+
 }

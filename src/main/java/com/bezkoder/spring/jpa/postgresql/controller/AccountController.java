@@ -63,5 +63,19 @@ public class AccountController {
 		}
 	}
 
+	@PatchMapping
+	public void changeBalance(@RequestParam("id") Long id, @RequestParam("cost") Long balance){
+		try {
+			accountService.changeBalance(id,balance);
+		} catch (Exception e) {
+
+		}
+;	}
+
+	@DeleteMapping
+	public void deleteAccounts(@RequestParam("id") Long id){
+		accountService.deleteAccounts(id);
+	}
+
 
 }

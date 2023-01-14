@@ -2,6 +2,7 @@ package com.bezkoder.spring.jpa.postgresql.controller;
 
 import com.bezkoder.spring.jpa.postgresql.model.*;
 import com.bezkoder.spring.jpa.postgresql.repository.*;
+import com.bezkoder.spring.jpa.postgresql.response.AccountBalanceResponse;
 import com.bezkoder.spring.jpa.postgresql.service.CommonsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,19 @@ import java.util.Optional;
 public class CommonsController {
 	@Autowired
 	CommonsService commonsService;
+	@Autowired
+	AccountTypeRepository accountTypeRepository;
+	@Autowired
+	ExpenseTypeRepository expenseTypeRepository;
+	@Autowired
+	CategoryTypeRepository categoryTypeRepository;
+	@Autowired
+	SubCategoryTypeRepository subCategoryTypeRepository;
 
 	@GetMapping("/accounts")
-	public ResponseEntity<List<AccountType>> getAllAccounts() {
+	public ResponseEntity<List<AccountBalanceResponse> > getAllAccounts(@RequestParam("userId") Long userId) {
 		try {
-			List<AccountType> accountTypes =commonsService.getAllAccountTypes();
+			List<AccountBalanceResponse> accountTypes =commonsService.getAllAccountTypes(userId);
 			if (accountTypes.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
@@ -38,6 +47,7 @@ public class CommonsController {
 		}
 	}
 
+
 	@PostMapping("/accounts")
 	public ResponseEntity<AccountType> createAccountType(@RequestBody AccountType accountType) {
 		try {
@@ -45,6 +55,22 @@ public class CommonsController {
 			return new ResponseEntity<>(_accountType, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	@DeleteMapping("/accounts")
+	public void deleteAccountType(@RequestParam Long id) {
+		try {
+			accountTypeRepository.deleteById(id);
+		} catch (Exception e) {
+
+		}
+	}
+	@PatchMapping("/accounts")
+	public void modifyAccountType(@RequestParam Long id,@RequestParam String name) {
+		try {
+			accountTypeRepository.modifyName(id,name);
+		} catch (Exception e) {
+
 		}
 	}
 
@@ -72,6 +98,25 @@ public class CommonsController {
 		}
 	}
 
+	@DeleteMapping("/categories")
+	public void deleteCategoryType(@RequestParam Long id) {
+		try {
+			categoryTypeRepository.deleteById(id);
+		} catch (Exception e) {
+
+		}
+	}
+
+	@PatchMapping("/categories")
+	public void modifyCategoryType(@RequestParam Long id,@RequestParam String name) {
+		try {
+			categoryTypeRepository.modifyName(id,name);
+		} catch (Exception e) {
+
+		}
+	}
+
+
 	@GetMapping("/subCategories")
 	public ResponseEntity<List<SubCategoryType>> getAllSubCategories() {
 		try {
@@ -96,6 +141,25 @@ public class CommonsController {
 		}
 	}
 
+	@DeleteMapping("/subCategories")
+	public void deleteSubCategoryType(@RequestParam Long id) {
+		try {
+			subCategoryTypeRepository.deleteById(id);
+		} catch (Exception e) {
+
+		}
+	}
+
+	@PatchMapping("/subCategories")
+	public void modifySubCategoryType(@RequestParam Long id,@RequestParam String name) {
+		try {
+			subCategoryTypeRepository.modifyName(id,name);
+		} catch (Exception e) {
+
+		}
+	}
+
+
 	@GetMapping("/expenses")
 	public ResponseEntity<List<ExpenseType>> getAllExpenses() {
 		try {
@@ -117,6 +181,24 @@ public class CommonsController {
 			return new ResponseEntity<>(_expenseType, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@DeleteMapping("/expenses")
+	public void deleteExpenseType(@RequestParam Long id) {
+		try {
+			expenseTypeRepository.deleteById(id);
+		} catch (Exception e) {
+
+		}
+	}
+
+	@PatchMapping("/expenses")
+	public void modifyExpenseType(@RequestParam Long id,@RequestParam String name) {
+		try {
+			expenseTypeRepository.modifyName(id,name);
+		} catch (Exception e) {
+
 		}
 	}
 

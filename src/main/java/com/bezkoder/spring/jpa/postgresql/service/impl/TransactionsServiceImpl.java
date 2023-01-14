@@ -65,6 +65,7 @@ public class TransactionsServiceImpl implements TransactionsService{
         Boolean active = true;
 
         Transactions transactions = transactionsRepository.save(new Transactions(name,cost,expenseTypeId,userId,accountTypeId,categoryTypeId,subAccountTypeId,subCategoryTypeId,active));
+        subAccountTypeRepository.updateBalance(subAccountTypeId,cost);
         return transactions;
     };
 
@@ -109,6 +110,13 @@ public class TransactionsServiceImpl implements TransactionsService{
                 subCategoryTypeIds,startDate,endDate);
         return transactions;
     };
+
+    public void deleteTransactions(Long id){
+        Transactions transactions = transactionsRepository.getReferenceById(id);
+        transactionsRepository.deleteById(id);
+        subAccountTypeRepository.updateBalance(transactions.getSubAccountId(),-1*transactions.getCost());
+
+    }
 }
 
 

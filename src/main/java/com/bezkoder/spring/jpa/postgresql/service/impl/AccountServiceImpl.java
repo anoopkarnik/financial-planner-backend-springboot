@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -60,6 +61,25 @@ public class AccountServiceImpl implements AccountService {
         return subAccountTypeList;
 
     };
+
+    @Override
+    public void updateBalance(Long id, Long cost){
+        Optional<SubAccountType> subAccountType = subAccountTypeRepository.findById(id);
+        subAccountTypeRepository.updateBalance(id,cost);
+    };
+
+    @Override
+    public void changeBalance(Long id, Long balance){
+        Optional<SubAccountType> subAccountType = subAccountTypeRepository.findById(id);
+        subAccountTypeRepository.changeBalance(id,balance);
+    };
+
+    @Override
+    public void deleteAccounts(Long id){
+        subAccountTypeRepository.deleteById(id);
+    }
+
+
 }
 
 
