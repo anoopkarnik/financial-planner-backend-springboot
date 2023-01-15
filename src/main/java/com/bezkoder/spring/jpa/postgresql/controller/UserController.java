@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = {"http://localhost:3001","http://financial-planner-react.anoopkarnik.net/"})
 @RestController
 @RequestMapping("/user")
 public class UserController {
