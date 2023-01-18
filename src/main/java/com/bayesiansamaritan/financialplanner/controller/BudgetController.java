@@ -89,6 +89,12 @@ public class BudgetController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	@DeleteMapping("/income")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public void deleteIncomes(@RequestParam("id") Long id){
+		incomeRepository.deleteById(id);
+	}
+
 
 	@GetMapping("/planAmount")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")

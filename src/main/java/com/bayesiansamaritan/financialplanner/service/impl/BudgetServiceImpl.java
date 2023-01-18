@@ -163,14 +163,27 @@ public class BudgetServiceImpl implements BudgetService {
             BudgetPlan budgetPlan = budgetPlanRepository.findByUserIdAndExpenseTypeId(userId, expenseType.getId());
             Long transactionPercentage = totalTransactions * 100 / totalIncome;
             BudgetPlanResponse budgetPlanResponse = new BudgetPlanResponse();
-            budgetPlanResponse.setId(budgetPlan.getId());
-            budgetPlanResponse.setExpenseName(expenseType.getName());
-            budgetPlanResponse.setPlanPercentage(budgetPlan.getPlanPercentage());
-            budgetPlanResponse.setTransactionTotal(totalTransactions);
-            budgetPlanResponse.setTransactionPercentage(transactionPercentage);
-            budgetPlanResponse.setPlanTotal(budgetPlan.getPlanPercentage() * totalIncome / 100);
-            budgetPlanResponse.setAllottedTotal(allottedTotal);
-            budgetPlanResponses.add(budgetPlanResponse);
+            try{
+                budgetPlanResponse.setId(budgetPlan.getId());
+                budgetPlanResponse.setExpenseName(expenseType.getName());
+                budgetPlanResponse.setPlanPercentage(budgetPlan.getPlanPercentage());
+                budgetPlanResponse.setTransactionTotal(totalTransactions);
+                budgetPlanResponse.setTransactionPercentage(transactionPercentage);
+                budgetPlanResponse.setPlanTotal(budgetPlan.getPlanPercentage() * totalIncome / 100);
+                budgetPlanResponse.setAllottedTotal(allottedTotal);
+                budgetPlanResponses.add(budgetPlanResponse);
+            }
+            catch(Exception e){
+                budgetPlanResponse.setId(9999L);
+                budgetPlanResponse.setExpenseName(expenseType.getName());
+                budgetPlanResponse.setPlanPercentage(0L);
+                budgetPlanResponse.setTransactionTotal(totalTransactions);
+                budgetPlanResponse.setTransactionPercentage(transactionPercentage);
+                budgetPlanResponse.setPlanTotal(0L* totalIncome / 100);
+                budgetPlanResponse.setAllottedTotal(allottedTotal);
+                budgetPlanResponses.add(budgetPlanResponse);
+            }
+
         }
         return budgetPlanResponses;
     };
