@@ -16,7 +16,7 @@ public interface SubAccountTypeRepository extends JpaRepository<SubAccountType, 
 
   List<SubAccountType> findByUserId(Long userId);
 
-  SubAccountType findByName(String name);
+  SubAccountType findByNameAndUserId(String name,Long userId);
 
   @Transactional
   @Modifying

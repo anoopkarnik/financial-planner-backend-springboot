@@ -1,10 +1,8 @@
 package com.bayesiansamaritan.financialplanner.controller;
 
 import com.bayesiansamaritan.financialplanner.enums.RoleEnum;
-import com.bayesiansamaritan.financialplanner.model.Role;
-import com.bayesiansamaritan.financialplanner.model.UserProfile;
-import com.bayesiansamaritan.financialplanner.repository.RoleRepository;
-import com.bayesiansamaritan.financialplanner.repository.UserProfileRepository;
+import com.bayesiansamaritan.financialplanner.model.*;
+import com.bayesiansamaritan.financialplanner.repository.*;
 import com.bayesiansamaritan.financialplanner.request.LoginRequest;
 import com.bayesiansamaritan.financialplanner.request.SignupRequest;
 import com.bayesiansamaritan.financialplanner.response.JwtResponse;
@@ -34,6 +32,14 @@ public class AuthController {
 
     @Autowired
     UserProfileRepository userRepository;
+
+    @Autowired
+    ExpenseTypeRepository expenseTypeRepository;
+
+    @Autowired
+    BudgetPlanRepository budgetPlanRepository;
+    @Autowired
+    IncomeRepository incomeRepository;
     @Autowired
     RoleRepository roleRepository;
     @Autowired
@@ -112,8 +118,13 @@ public class AuthController {
         }
 
         user.setRoles(roles);
-        userRepository.save(user);
-
+        UserProfile userProfile = userRepository.save(user);
+        Long userId = userProfile.getId();
+        List<ExpenseType> expenseTypes = expenseTypeRepository.findAll();
+        for(ExpenseType expenseType:expenseTypes){
+            budgetPlanRepository.save(new BudgetPlan(25L,expenseType.getId(),userId));
+        }
+        incomeRepository.save(new Income("Sample Salary",10000L,true,userId));
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 

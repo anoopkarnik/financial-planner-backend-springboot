@@ -61,7 +61,7 @@ public class TransactionsServiceImpl implements TransactionsService {
         SubCategoryType subCategoryType = subCategoryTypeRepository.findByName(subCategoryName);
         Long subCategoryTypeId = subCategoryType.getId();
 
-        SubAccountType subAccountType = subAccountTypeRepository.findByName(subAccountName);
+        SubAccountType subAccountType = subAccountTypeRepository.findByNameAndUserId(subAccountName,userId);
         Long subAccountTypeId = subAccountType.getId();
 
         Boolean active = true;
